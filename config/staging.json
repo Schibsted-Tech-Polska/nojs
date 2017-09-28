@@ -1,0 +1,23 @@
+{
+    "server": {
+        "baseUrl": "http://localhost:3000",
+        "cors": {
+            "origin": ["*"]
+        }
+    },
+    "logger": {
+        "transports": [
+            {
+                "type": "console",
+                "level": "debug"
+            }
+        ]
+    },
+    "newrelic": {
+        "app_name": ["nojs-stage.mesos.int.vgnett.no"],
+        "rules": {
+            "ignore": ["^/v[0-9]+/healthcheck$"]
+        }
+    },
+    "hashtwo": "staging.nojs.sucks"
+}

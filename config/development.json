@@ -1,0 +1,22 @@
+{
+    "server": {
+        "cors": {
+            "origin": ["*"]
+        }
+    },
+    "logger": {
+        "transports": [
+            {
+                "type": "console",
+                "level": "debug"
+            }
+        ]
+    },
+    "hashtwo": "development.nojs.sucks",
+    "puppeteer": {
+        "chromeOptions": {
+            "headless": false,
+            "slowMo": 50
+        }
+    }
+}

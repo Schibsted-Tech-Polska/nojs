@@ -1,0 +1,14 @@
+{
+    "hashtwo": "testing.nojs.sucks",
+    "logger": {
+        "transports": [
+            {
+                "type": "console",
+                "level": "info"
+            }
+        ]
+    },
+    "good": {
+        "enabled": false
+    }
+}

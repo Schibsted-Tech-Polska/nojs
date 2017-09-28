@@ -1,0 +1,24 @@
+{
+    "server": {
+        "baseUrl": "http://localhost:3000",
+        "cors": {
+            "origin": ["*"]
+        }
+    },
+    "hashtwo": "production.nojs.sucks",
+    "logger": {
+        "transports": [
+            {
+                "type": "console",
+                "level": "info"
+            }
+        ]
+    },
+    "newrelic": {
+        "agent_enabled": true,
+        "app_name": ["nojs.mesos.int.vgnett.no"],
+        "rules": {
+            "ignore": ["^/v[0-9]+/healthcheck$"]
+        }
+    }
+}

@@ -1,0 +1,69 @@
+{
+    "server": {
+        "port": 3000,
+        "routesPrefix": "/v1"
+    },
+    "newrelic": {
+        "agent_enabled": false,
+        "rules": {
+            "ignore": ["^/v[0-9]+/healthcheck$"]
+        }
+    },
+    "logger": {
+        "transports": []
+    },
+    "good": {
+        "enabled": true,
+        "options": {
+            "ops": {
+                "interval": 60000
+            },
+            "reporters": {
+                "console": [
+                    {
+                        "module": "good-squeeze",
+                        "name": "Squeeze",
+                        "args": [
+                            {
+                                "log": { "exclude": ["client"] },
+                                "response": "*",
+                                "error": { "exclude": ["client"] },
+                                "ops": "*"
+                            }
+                        ]
+                    },
+                    {
+                        "module": "app/monitoring/goodTransform"
+                    },
+                    "stdout"
+                ]
+            }
+        }
+    },
+    "cache": {
+        "headers": {
+            "directive": "must-revalidate",
+            "serverTime": 3600,
+            "clientTime": 600
+        }
+    },
+    "httpClient": {
+        "timeout": 10000
+    },
+    "swagger": {
+        "documentationPath": "/v1/",
+        "swaggerUIPath": "/v1/swaggerui/",
+        "jsonPath": "/v1/swagger.json",
+        "info": {
+            "title": "nojs.sucks",
+            "description": "Rendering tool for clients not interpreting JS",
+            "version": "1.0"
+        }
+    },
+    "puppeteer": {
+        "maxUrlsOpened": 3,
+        "chromeOptions": {
+            "args": ["--no-sandbox", "--disable-setuid-sandbox"]
+        }
+    }
+}
