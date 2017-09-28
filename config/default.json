@@ -69,7 +69,6 @@
         "chromeOptions": {
             "args": ["--no-sandbox", "--disable-setuid-sandbox", "--disable-gpu", "--hide-scrollbars"],
             "ignoreHTTPSErrors": true,
-            "dumpio": true,
             "headless": true
         }
     }

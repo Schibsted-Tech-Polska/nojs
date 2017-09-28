@@ -16,7 +16,8 @@
     "puppeteer": {
         "chromeOptions": {
             "headless": false,
-            "slowMo": 50
+            "slowMo": 50,
+            "dumpio": true
         }
     }
 }
