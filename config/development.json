@@ -15,8 +15,6 @@
     "hashtwo": "development.nojs.sucks",
     "puppeteer": {
         "chromeOptions": {
-            "headless": false,
-            "slowMo": 50,
             "dumpio": true
         }
     }
