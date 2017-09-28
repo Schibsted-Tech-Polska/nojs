@@ -18,7 +18,7 @@ const route = (server, options, next) => {
             },
             description: 'Makes a screenshot of a page at given URL',
             notes: [],
-            tags: ['screenshot'],
+            tags: ['api', 'screenshot'],
             plugins: {
                 caching: {
                     serverTime: 60,

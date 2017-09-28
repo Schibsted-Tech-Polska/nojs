@@ -18,7 +18,7 @@ const route = (server, options, next) => {
             },
             description: 'Render a page at given URL',
             notes: [],
-            tags: ['render'],
+            tags: ['api', 'render'],
             plugins: {
                 caching: {
                     serverTime: 60,
