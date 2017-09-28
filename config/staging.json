@@ -14,6 +14,7 @@
         ]
     },
     "newrelic": {
+        "agent_enabled": true,
         "app_name": ["nojs-stage.mesos.int.vgnett.no"],
         "rules": {
             "ignore": ["^/v[0-9]+/healthcheck$"]

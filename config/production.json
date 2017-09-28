@@ -5,7 +5,6 @@
             "origin": ["*"]
         }
     },
-    "hashtwo": "production.nojs.sucks",
     "logger": {
         "transports": [
             {
@@ -20,5 +19,6 @@
         "rules": {
             "ignore": ["^/v[0-9]+/healthcheck$"]
         }
-    }
+    },
+    "hashtwo": "production.nojs.sucks"
 }
