@@ -11,9 +11,11 @@ const defaultPageOptions = {
     waitUntil: 'networkidle',
     networkIdleInflight: 3,
     networkIdleTimeout: 3000,
+    timeout: 10000,
 };
 
 const init = async () => {
+    const nowTime = +new Date();
     const blockedRequests = new RegExp('(' + config.puppeteer.blockedRequests.join('|') + ')', 'i');
 
     if (openedUrlsCounter >= config.puppeteer.maxUrlsOpened) {
@@ -31,7 +33,18 @@ const init = async () => {
     await page.setRequestInterceptionEnabled(true);
     page.on('request', interceptedRequest => {
         const { url, method } = interceptedRequest;
-        if (blockedRequests.test(url)) {
+        const elapsedTime = +new Date() - nowTime;
+
+        // Skip data URIs
+        if (/^data:/i.test(url)) {
+            interceptedRequest.continue();
+            return;
+        }
+
+        if (elapsedTime >= 5000) {
+            logger.debug(`Shutting down late ${method} request for: ${url}`);
+            interceptedRequest.abort();
+        } else if (blockedRequests.test(url)) {
             logger.debug(`Blocked ${method} request for: ${url}`);
             interceptedRequest.abort();
         } else {
