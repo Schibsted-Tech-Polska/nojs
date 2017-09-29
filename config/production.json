@@ -20,5 +20,10 @@
             "ignore": ["^/v[0-9]+/healthcheck$"]
         }
     },
-    "hashtwo": "production.nojs.sucks"
+    "hashtwo": "production.nojs.sucks",
+    "puppeteer": {
+        "chromeOptions": {
+            "dumpio": false
+        }
+    }
 }
