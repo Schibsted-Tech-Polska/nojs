@@ -65,7 +65,7 @@
         }
     },
     "puppeteer": {
-        "maxUrlsOpened": 3,
+        "maxUrlsOpened": 100,
         "chromeOptions": {
             "args": ["--no-sandbox", "--disable-setuid-sandbox", "--disable-gpu", "--hide-scrollbars"],
             "ignoreHTTPSErrors": true,
