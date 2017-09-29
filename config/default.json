@@ -58,6 +58,7 @@
         "documentationPath": "/v1",
         "swaggerUIPath": "/v1/swaggerui/",
         "jsonPath": "/v1/swagger.json",
+        "pathPrefixSize": 2,
         "info": {
             "title": "nojs.sucks",
             "description": "Rendering tool for clients not interpreting JS",
