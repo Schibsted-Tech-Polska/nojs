@@ -7,15 +7,7 @@ const logger = require('app/logger');
 let browser = null;
 let openedUrlsCounter = 0;
 
-const defaultPageOptions = {
-    waitUntil: 'networkidle',
-    networkIdleInflight: 3,
-    networkIdleTimeout: 3000,
-    timeout: 10000,
-};
-
 const init = async () => {
-    const nowTime = +new Date();
     const blockedRequests = new RegExp('(' + config.puppeteer.blockedRequests.join('|') + ')', 'i');
 
     if (openedUrlsCounter >= config.puppeteer.maxUrlsOpened) {
@@ -33,18 +25,8 @@ const init = async () => {
     await page.setRequestInterceptionEnabled(true);
     page.on('request', interceptedRequest => {
         const { url, method } = interceptedRequest;
-        const elapsedTime = +new Date() - nowTime;
 
-        // Skip data URIs
-        if (/^data:/i.test(url)) {
-            interceptedRequest.continue();
-            return;
-        }
-
-        if (elapsedTime >= 5000) {
-            logger.debug(`Shutting down late ${method} request for: ${url}`);
-            interceptedRequest.abort();
-        } else if (blockedRequests.test(url)) {
+        if (blockedRequests.test(url)) {
             logger.debug(`Blocked ${method} request for: ${url}`);
             interceptedRequest.abort();
         } else {
@@ -56,7 +38,7 @@ const init = async () => {
 };
 
 const goTo = async (page, url, options) => {
-    options = { ...defaultPageOptions, ...options };
+    options = { ...config.puppeteer.pageOptions, ...options };
     openedUrlsCounter++;
     url = decodeURIComponent(url);
 
@@ -69,7 +51,16 @@ const goTo = async (page, url, options) => {
         page.setUserAgent(options['user-agent']);
     }
 
-    await page.goto(url, options);
+    try {
+        await page.goto(url, options);
+    } catch (error) {
+        if (error.message.includes('Navigation Timeout Exceeded')) {
+            logger.warn(`Request for ${url} timed out after ${options.timeout}ms`);
+        } else {
+            throw error;
+        }
+    }
+
     await page.waitForFunction('document && document.documentElement && document.doctype');
     await page.evaluate(baseUrl => {
         const base = document.createElement('base');

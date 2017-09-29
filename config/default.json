@@ -72,6 +72,10 @@
             "headless": true,
             "dumpio": true
         },
+        "pageOptions": {
+            "waitUntil": "networkidle",
+            "timeout": 5000
+        },
         "blockedRequests": ["google-analytics.com"]
     }
 }
