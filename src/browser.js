@@ -55,7 +55,7 @@ const goTo = async (page, url, options) => {
         await page.goto(url, options);
     } catch (error) {
         if (error.message.includes('Navigation Timeout Exceeded')) {
-            logger.warn(`Request for ${url} timed out after ${options.timeout}ms`);
+            logger.debug(`Request for ${url} timed out after ${options.timeout}ms`);
         } else {
             throw error;
         }
