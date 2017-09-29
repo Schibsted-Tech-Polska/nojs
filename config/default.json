@@ -71,6 +71,7 @@
             "ignoreHTTPSErrors": true,
             "headless": true,
             "dumpio": true
-        }
+        },
+        "blockedRequests": ["google-analytics.com"]
     }
 }

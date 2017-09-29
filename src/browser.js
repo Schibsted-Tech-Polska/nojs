@@ -7,10 +7,14 @@ const logger = require('app/logger');
 let browser = null;
 let openedUrlsCounter = 0;
 
+const defaultPageOptions = {
+    waitUntil: 'networkidle',
+    networkIdleInflight: 3,
+    networkIdleTimeout: 3000,
+};
+
 const init = async () => {
-    if (browser !== null && openedUrlsCounter < config.puppeteer.maxUrlsOpened) {
-        return;
-    }
+    const blockedRequests = new RegExp('(' + config.puppeteer.blockedRequests.join('|') + ')', 'i');
 
     if (openedUrlsCounter >= config.puppeteer.maxUrlsOpened) {
         logger.debug(`Limit of ${config.puppeteer.maxUrlsOpened} URLs opened reached - restarting Chromium...`);
@@ -19,23 +23,31 @@ const init = async () => {
         openedUrlsCounter = 0;
     }
 
-    browser = await puppeteer.launch(config.puppeteer.chromeOptions);
+    if (browser === null) {
+        browser = await puppeteer.launch(config.puppeteer.chromeOptions);
+    }
+
+    const page = await browser.newPage();
+    await page.setRequestInterceptionEnabled(true);
+    page.on('request', interceptedRequest => {
+        const { url, method } = interceptedRequest;
+        if (blockedRequests.test(url)) {
+            logger.debug(`Blocked ${method} request for: ${url}`);
+            interceptedRequest.abort();
+        } else {
+            interceptedRequest.continue();
+        }
+    });
+
+    return page;
 };
 
-const goTo = async (
-    page,
-    url,
-    options = {
-        waitUntil: 'networkidle',
-        networkIdleInflight: 0,
-        networkIdleTimeout: 3000,
-    }
-) => {
+const goTo = async (page, url, options) => {
+    options = Object.assign({}, defaultPageOptions, options);
     openedUrlsCounter++;
     url = decodeURIComponent(url);
 
     logger.debug(`Opening URL (${openedUrlsCounter}/${config.puppeteer.maxUrlsOpened}): ${url}`);
-
     if (options.width && options.height) {
         page.setViewport({ width: parseInt(options.width, 10), height: parseInt(options.height, 10) });
     }
@@ -56,8 +68,7 @@ const goTo = async (
 };
 
 const render = async (url, options) => {
-    await init();
-    const page = await browser.newPage();
+    const page = await init();
     await goTo(page, url, options);
     const result = await page.content();
     await page.close();
@@ -66,8 +77,7 @@ const render = async (url, options) => {
 };
 
 const screenshot = async (url, options) => {
-    await init();
-    const page = await browser.newPage();
+    const page = await init();
     await goTo(page, url, options);
     const result = await page.screenshot({ fullPage: true });
     await page.close();
