@@ -12,10 +12,5 @@
             }
         ]
     },
-    "hashtwo": "development.nojs.sucks",
-    "puppeteer": {
-        "chromeOptions": {
-            "headless": false
-        }
-    }
+    "hashtwo": "development.nojs.sucks"
 }

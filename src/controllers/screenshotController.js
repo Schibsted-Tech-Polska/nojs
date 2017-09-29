@@ -3,16 +3,24 @@
 const browser = require('app/browser');
 const encodeData = require('app/utils/encodeData');
 
-const screenshotController = async (request, reply) => {
-    let { url } = request.payload;
+const simpleScreenshot = async (request, reply) => {
+    let { url } = request.params;
 
     if (encodeData(request.query) !== '') {
         url += '?' + encodeData(request.query);
     }
 
-    const image = await browser.screenshot(url, request.payload.options);
+    const image = await browser.screenshot(url);
 
     return reply(image).header('Content-Type', 'image/png');
 };
 
-module.exports = screenshotController;
+const advancedScreenshot = async (request, reply) => {
+    let { url, options } = request.payload;
+
+    const image = await browser.screenshot(url, options);
+
+    return reply(image).header('Content-Type', 'image/png');
+};
+
+module.exports = { simpleScreenshot, advancedScreenshot };

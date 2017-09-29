@@ -55,7 +55,7 @@
         "timeout": 10000
     },
     "swagger": {
-        "documentationPath": "/v1/",
+        "documentationPath": "/v1",
         "swaggerUIPath": "/v1/swaggerui/",
         "jsonPath": "/v1/swagger.json",
         "info": {
