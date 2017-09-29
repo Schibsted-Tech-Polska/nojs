@@ -43,7 +43,7 @@ const init = async () => {
 };
 
 const goTo = async (page, url, options) => {
-    options = Object.assign({}, defaultPageOptions, options);
+    options = { ...defaultPageOptions, ...options };
     openedUrlsCounter++;
     url = decodeURIComponent(url);
 
