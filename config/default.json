@@ -74,7 +74,9 @@
         },
         "pageOptions": {
             "waitUntil": "networkidle",
-            "timeout": 5000
+            "timeout": 5000,
+            "width": 1920,
+            "height": 1200
         },
         "blockedRequests": ["google-analytics.com"]
     }
