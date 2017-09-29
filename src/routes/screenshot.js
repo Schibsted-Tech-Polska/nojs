@@ -7,13 +7,14 @@ const errorHandler = require('app/error/errorHandler');
 
 const route = (server, options, next) => {
     server.route({
-        method: 'GET',
-        path: '/screenshot/{url*}',
+        method: 'POST',
+        path: '/screenshot',
         handler: errorHandler(screenshotController),
         config: {
             validate: {
-                params: {
+                payload: {
                     url: Joi.string().description('URL to render'),
+                    options: Joi.object().description('Options to perform the request with'),
                 },
             },
             description: 'Makes a screenshot of a page at given URL',
