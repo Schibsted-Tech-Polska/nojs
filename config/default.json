@@ -75,7 +75,7 @@
         },
         "pageOptions": {
             "waitUntil": "networkidle",
-            "timeout": 3000,
+            "timeout": 5000,
             "width": 1600,
             "height": 900
         },
