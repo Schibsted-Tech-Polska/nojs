@@ -14,7 +14,6 @@ const renderController = async (request, reply) => {
     const response = await browser.render(url, {
         width,
         height,
-        'user-agent': request.headers['user-agent'],
     });
 
     return reply(response);
