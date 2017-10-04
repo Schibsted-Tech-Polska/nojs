@@ -79,6 +79,9 @@
             "width": 1600,
             "height": 900
         },
-        "blockedRequests": ["google-analytics.com"]
+        "blockRequests": {
+            "enabled": false,
+            "urls": ["google-analytics.com"]
+        }
     }
 }

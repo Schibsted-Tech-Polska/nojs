@@ -9,8 +9,6 @@ let browser = null;
 let openedUrlsCounter = 0;
 
 const init = async (restartBrowser = false) => {
-    const blockedRequests = new RegExp('(' + config.puppeteer.blockedRequests.join('|') + ')', 'i');
-
     if (restartBrowser || openedUrlsCounter >= config.puppeteer.maxUrlsOpened) {
         logger.debug(`Restarting Chromium...`);
         await browser.close();
@@ -23,17 +21,22 @@ const init = async (restartBrowser = false) => {
     }
 
     const page = await browser.newPage();
-    await page.setRequestInterceptionEnabled(true);
-    page.on('request', interceptedRequest => {
-        const { url, method } = interceptedRequest;
 
-        if (blockedRequests.test(url)) {
-            logger.debug(`Blocked ${method} request for: ${url}`);
-            interceptedRequest.abort();
-        } else {
-            interceptedRequest.continue();
-        }
-    });
+    if (config.puppeteer.blockRequests.enabled) {
+        const blockedRequests = new RegExp('(' + config.puppeteer.blockRequests.urls.join('|') + ')', 'i');
+
+        await page.setRequestInterceptionEnabled(true);
+        page.on('request', interceptedRequest => {
+            const { url, method } = interceptedRequest;
+
+            if (blockedRequests.test(url)) {
+                logger.debug(`Blocked ${method} request for: ${url}`);
+                interceptedRequest.abort();
+            } else {
+                interceptedRequest.continue();
+            }
+        });
+    }
 
     return page;
 };
