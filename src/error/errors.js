@@ -20,7 +20,17 @@ const NotFoundError = function(message, extra) {
 
 util.inherits(NotFoundError, Error);
 
+const RenderFailedError = function(message, extra) {
+    this.name = this.constructor.name;
+    this.message = message;
+    this.extra = extra;
+    Error.captureStackTrace(this, this.constructor);
+};
+
+util.inherits(RenderFailedError, Error);
+
 module.exports = {
-    ExternalServiceError: ExternalServiceError,
-    NotFoundError: NotFoundError,
+    ExternalServiceError,
+    NotFoundError,
+    RenderFailedError,
 };

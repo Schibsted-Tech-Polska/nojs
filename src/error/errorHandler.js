@@ -13,6 +13,9 @@ const errorHandler = controller => {
                     logger.error(JSON.stringify(err.extra));
                 }
                 reply(Boom.serverUnavailable(err.message));
+            } else if (err instanceof errors.RenderFailedError) {
+                logger.error(err);
+                reply(Boom.serverUnavailable(err.message));
             } else if (err instanceof errors.NotFoundError) {
                 reply(Boom.notFound(err.message));
             } else if (err.statusCode === 404) {

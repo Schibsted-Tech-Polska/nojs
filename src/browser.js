@@ -3,6 +3,7 @@
 const config = require('ez-config').values;
 const puppeteer = require('puppeteer');
 const logger = require('app/logger');
+const RenderFailedError = require('app/error/errors').RenderFailedError;
 
 let browser = null;
 let openedUrlsCounter = 0;
@@ -71,13 +72,22 @@ const goTo = async (page, url, options) => {
 
 const render = async (url, options) => {
     let page;
+    let result;
+
     try {
         page = await init();
     } catch (error) {
         page = await init(true);
     }
+
     await goTo(page, url, options);
-    const result = await page.content();
+
+    try {
+        result = await page.content();
+    } catch (error) {
+        throw new RenderFailedError(error.message, error.stack);
+    }
+
     await page.close();
 
     return result;
@@ -85,13 +95,22 @@ const render = async (url, options) => {
 
 const screenshot = async (url, options) => {
     let page;
+    let result;
+
     try {
         page = await init();
     } catch (error) {
         page = await init(true);
     }
+
     await goTo(page, url, options);
-    const result = await page.screenshot({ fullPage: true });
+
+    try {
+        result = await page.screenshot({ fullPage: true });
+    } catch (error) {
+        throw new RenderFailedError(error.message, error.stack);
+    }
+
     await page.close();
 
     return result;
