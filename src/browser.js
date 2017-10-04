@@ -7,11 +7,11 @@ const logger = require('app/logger');
 let browser = null;
 let openedUrlsCounter = 0;
 
-const init = async () => {
+const init = async (restartBrowser = false) => {
     const blockedRequests = new RegExp('(' + config.puppeteer.blockedRequests.join('|') + ')', 'i');
 
-    if (openedUrlsCounter >= config.puppeteer.maxUrlsOpened) {
-        logger.debug(`Limit of ${config.puppeteer.maxUrlsOpened} URLs opened reached - restarting Chromium...`);
+    if (restartBrowser || openedUrlsCounter >= config.puppeteer.maxUrlsOpened) {
+        logger.debug(`Restarting Chromium...`);
         await browser.close();
         browser = null;
         openedUrlsCounter = 0;
@@ -70,7 +70,12 @@ const goTo = async (page, url, options) => {
 };
 
 const render = async (url, options) => {
-    const page = await init();
+    let page;
+    try {
+        page = await init();
+    } catch (error) {
+        page = await init(true);
+    }
     await goTo(page, url, options);
     const result = await page.content();
     await page.close();
@@ -79,7 +84,12 @@ const render = async (url, options) => {
 };
 
 const screenshot = async (url, options) => {
-    const page = await init();
+    let page;
+    try {
+        page = await init();
+    } catch (error) {
+        page = await init(true);
+    }
     await goTo(page, url, options);
     const result = await page.screenshot({ fullPage: true });
     await page.close();
