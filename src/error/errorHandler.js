@@ -3,6 +3,7 @@
 const Boom = require('boom');
 const errors = require('app/error/errors');
 const logger = require('app/logger');
+const assert = require('assert');
 
 const errorHandler = controller => {
     return (req, reply) => {
@@ -12,6 +13,9 @@ const errorHandler = controller => {
                 if (err.extra) {
                     logger.error(JSON.stringify(err.extra));
                 }
+                reply(Boom.serverUnavailable(err.message));
+            } else if (err instanceof assert.AssertionError) {
+                logger.error(err);
                 reply(Boom.serverUnavailable(err.message));
             } else if (err instanceof errors.RenderFailedError) {
                 logger.error(err);
