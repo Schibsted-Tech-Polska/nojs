@@ -13,9 +13,9 @@
     "scripts": {
         "install": "npm run symlink",
         "symlink": "rm -rf node_modules/app && ln -s ../src/ node_modules/app",
-        "start": "node src/app.js",
+        "start": "node --trace-warnings src/app.js",
         "watch": "nodemon src/app.js",
-        "dev": "NODE_ENV=development nodemon --inspect src/app.js",
+        "dev": "NODE_ENV=development nodemon --inspect --trace-warnings src/app.js",
         "prettier": "prettier --tab-width=4 --print-width=120 --single-quote --trailing-comma=es5 --write",
         "lint-fix": "eslint . --fix",
         "lint-staged": "lint-staged",
