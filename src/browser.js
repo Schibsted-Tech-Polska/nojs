@@ -66,7 +66,7 @@ const goTo = async (page, url, options) => {
         if (error.message.includes('Navigation Timeout Exceeded')) {
             logger.debug(`Request for ${url} timed out after ${options.timeout}ms`);
         } else {
-            logger.error(`Exception thrown by puppeteer: ${error.message}`, error);
+            logger.warn(`Exception thrown by puppeteer: ${error.message}`, error);
         }
     }
 

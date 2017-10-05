@@ -15,10 +15,10 @@ const errorHandler = controller => {
                 }
                 reply(Boom.serverUnavailable(err.message));
             } else if (err instanceof assert.AssertionError) {
-                logger.error(err);
+                logger.warn(err);
                 reply(Boom.serverUnavailable(err.message));
             } else if (err instanceof errors.RenderFailedError) {
-                logger.error(err);
+                logger.warn(err);
                 reply(Boom.serverUnavailable(err.message));
             } else if (err instanceof errors.NotFoundError) {
                 reply(Boom.notFound(err.message));
