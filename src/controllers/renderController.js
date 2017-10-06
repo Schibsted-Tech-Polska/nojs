@@ -3,6 +3,7 @@
 const browser = require('app/browser');
 const encodeData = require('app/utils/encodeData');
 const RenderFailedError = require('app/error/errors').RenderFailedError;
+const logger = require('app/logger');
 
 const renderController = async (request, reply) => {
     const { width, height } = request.query;
@@ -20,6 +21,8 @@ const renderController = async (request, reply) => {
         });
     } catch (error) {
         if (error instanceof RenderFailedError) {
+            logger.warn(`[RENDER RETRY] render of ${url} failed, retrying...`);
+
             response = await browser.render(url, {
                 width,
                 height,
