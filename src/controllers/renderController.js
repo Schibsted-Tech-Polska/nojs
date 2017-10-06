@@ -2,19 +2,32 @@
 
 const browser = require('app/browser');
 const encodeData = require('app/utils/encodeData');
+const RenderFailedError = require('app/error/errors').RenderFailedError;
 
 const renderController = async (request, reply) => {
-    let { url } = request.params;
     const { width, height } = request.query;
+    let { url } = request.params;
+    let response;
 
     if (encodeData(request.query) !== '') {
         url += '?' + encodeData(request.query);
     }
 
-    const response = await browser.render(url, {
-        width,
-        height,
-    });
+    try {
+        response = await browser.render(url, {
+            width,
+            height,
+        });
+    } catch (error) {
+        if (error instanceof RenderFailedError) {
+            response = await browser.render(url, {
+                width,
+                height,
+            });
+        } else {
+            throw error;
+        }
+    }
 
     return reply(response);
 };
