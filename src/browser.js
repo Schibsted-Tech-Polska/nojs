@@ -11,7 +11,11 @@ let openedUrlsCounter = 0;
 const init = async (restartBrowser = false) => {
     if (restartBrowser || openedUrlsCounter >= config.puppeteer.maxUrlsOpened) {
         logger.debug(`Restarting Chromium...`);
-        await browser.close();
+        try {
+            await browser.close();
+        } catch (error) {
+            logger.warn('Chromium died silently, relaunching');
+        }
         browser = null;
         openedUrlsCounter = 0;
     }
