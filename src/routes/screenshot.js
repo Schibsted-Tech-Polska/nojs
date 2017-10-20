@@ -13,7 +13,10 @@ const simpleScreenshotRoute = (server, options, next) => {
         config: {
             validate: {
                 params: {
-                    url: Joi.string().description('URL to render'),
+                    url: Joi.string()
+                        .required()
+                        .example('https://vg.no')
+                        .description('URL to render'),
                 },
             },
             description: 'Makes a basic screenshot of a page at given URL',
@@ -43,8 +46,42 @@ const advancedScreenshotRoute = (server, options, next) => {
         config: {
             validate: {
                 payload: {
-                    url: Joi.string().description('URL to render'),
-                    options: Joi.object().description('Options to perform the request with'),
+                    url: Joi.string()
+                        .uri()
+                        .required()
+                        .example('https://vg.no')
+                        .description('URL to render'),
+                    options: Joi.object({
+                        'inject-css': Joi.string()
+                            .example('body {background-color: pink;}')
+                            .description('CSS to inject into DOM'),
+                        'user-agent': Joi.string()
+                            .example(
+                                'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36'
+                            )
+                            .description('User-agent to query the URL as'),
+                        width: Joi.number()
+                            .example('1920')
+                            .description('Viewport width'),
+                        height: Joi.number()
+                            .example('1080')
+                            .description('Viewport height'),
+                        timeout: Joi.number()
+                            .unit('milliseconds')
+                            .example('10000')
+                            .description('Time to wait for page to render (in ms)'),
+                        waitUntil: Joi.string()
+                            .allow(['load', 'networkidle'])
+                            .description(
+                                'Maximum amount of inflight requests which are considered "idle". Takes effect only with waitUntil: \'networkidle\' parameter. Defaults to 2.'
+                            ),
+                        networkIdleTimeout: Joi.number()
+                            .unit('milliseconds')
+                            .example('1000')
+                            .description(
+                                "A timeout to wait before completing navigation. Takes effect only with waitUntil: 'networkidle' parameter. Defaults to 1000 ms."
+                            ),
+                    }).description('Options to perform the request with'),
                 },
             },
             description: 'Makes an advanced, custimizablesimple screenshot of a page at given URL',

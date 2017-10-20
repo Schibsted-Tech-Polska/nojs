@@ -13,7 +13,10 @@ const route = (server, options, next) => {
         config: {
             validate: {
                 params: {
-                    url: Joi.string().description('URL to render'),
+                    url: Joi.string()
+                        .required()
+                        .example('https://vg.no')
+                        .description('URL to render'),
                 },
             },
             description: 'Render a page at given URL',

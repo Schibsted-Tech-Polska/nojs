@@ -61,18 +61,27 @@ const goTo = async (page, url, options) => {
 
     try {
         await page.goto(url, options);
-        await page.evaluate(baseUrl => {
-            const base = document.createElement('base');
-            base.setAttribute('href', baseUrl);
-            document.head.appendChild(base);
-        }, url);
     } catch (error) {
         if (error.message.includes('Navigation Timeout Exceeded')) {
             logger.debug(`Request for ${url} timed out after ${options.timeout}ms`);
         } else {
             logger.warn(`Exception thrown by puppeteer: ${error.message}`, error);
         }
+    } finally {
+        await page.evaluate(baseUrl => {
+            const base = document.createElement('base');
+            base.setAttribute('href', baseUrl);
+            document.head.appendChild(base);
+        }, url);
+
+        if (options['inject-css']) {
+            await page.addStyleTag({
+                content: options['inject-css'],
+            });
+        }
     }
+
+    logger.debug('Page metrics', await page.getMetrics());
 
     return page;
 };

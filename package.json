@@ -42,28 +42,28 @@
         "hapi": "^16.6.2",
         "hapi-etags": "^0.1.0",
         "hapi-plugin-header": "^0.9.3",
-        "hapi-swagger": "^7.8.1",
+        "hapi-swagger": "^8.0.0",
         "inert": "^4.2.1",
         "lodash.get": "^4.4.2",
         "lodash.unescape": "^4.0.1",
-        "newrelic": "^2.2.2",
+        "newrelic": "^2.3.0",
         "node-fetch": "^1.7.3",
-        "puppeteer": "^0.11.0",
+        "puppeteer": "^0.12.0",
         "vision": "^4.1.1",
-        "winston": "^2.3.1"
+        "winston": "^2.4.0"
     },
     "devDependencies": {
-        "eslint": "^4.7.2",
+        "eslint": "^4.9.0",
         "eslint-config-prettier": "^2.6.0",
         "eslint-config-vgno": "^7.0.0",
         "eslint-plugin-prettier": "^2.3.1",
-        "lint-staged": "^4.2.3",
-        "mocha": "3.5.3",
-        "mocha-jenkins-reporter": "^0.3.9",
+        "lint-staged": "^4.3.0",
+        "mocha": "4.0.1",
+        "mocha-jenkins-reporter": "^0.3.10",
         "nock": "^9.0.22",
         "nodemon": "^1.12.1",
         "pre-commit": "^1.2.2",
-        "prettier": "^1.7.2",
+        "prettier": "^1.7.4",
         "proxyquire": "^1.8.0"
     }
 }
