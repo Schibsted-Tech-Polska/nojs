@@ -1,4 +1,4 @@
-FROM node:8-slim
+FROM node:8
 
 ENV NPM_CONFIG_LOGLEVEL warn
 ENV APP_PATH /app/
