@@ -96,7 +96,7 @@ const goTo = async (page, url, options) => {
     return page;
 };
 
-const render = async (url, options) => {
+const render = async (url, options = {}) => {
     let page;
     let result;
 
@@ -119,7 +119,7 @@ const render = async (url, options) => {
     return result;
 };
 
-const screenshot = async (url, options) => {
+const screenshot = async (url, options = {}) => {
     let page;
     let result;
 
