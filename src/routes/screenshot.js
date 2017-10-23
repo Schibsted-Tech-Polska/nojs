@@ -66,6 +66,13 @@ const advancedScreenshotRoute = (server, options, next) => {
                         height: Joi.number()
                             .example('1080')
                             .description('Viewport height'),
+                        deviceScaleFactor: Joi.number()
+                            .example('1.0')
+                            .description('Device scale factory'),
+                        fullPage: Joi.boolean()
+                            .default(true)
+                            .example(true)
+                            .description('Save full page screenshot (default: true)'),
                         timeout: Joi.number()
                             .unit('milliseconds')
                             .example('10000')
@@ -81,7 +88,9 @@ const advancedScreenshotRoute = (server, options, next) => {
                             .description(
                                 "A timeout to wait before completing navigation. Takes effect only with waitUntil: 'networkidle' parameter. Defaults to 1000 ms."
                             ),
-                    }).description('Options to perform the request with'),
+                    })
+                        .options({ allowUnknown: true })
+                        .description('Options to perform the request with'),
                 },
             },
             description: 'Makes an advanced, custimizablesimple screenshot of a page at given URL',
