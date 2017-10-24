@@ -47,7 +47,6 @@ const init = async (restartBrowser = false) => {
 };
 
 const goTo = async (page, url, options) => {
-    options = { ...config.puppeteer.pageOptions, ...options };
     openedUrlsCounter++;
     url = decodeURIComponent(url);
 
@@ -97,6 +96,7 @@ const goTo = async (page, url, options) => {
 };
 
 const render = async (url, options = {}) => {
+    options = { ...config.puppeteer.pageOptions, ...options };
     let page;
     let result;
 
@@ -120,6 +120,7 @@ const render = async (url, options = {}) => {
 };
 
 const screenshot = async (url, options = {}) => {
+    options = { ...config.puppeteer.pageOptions, ...options };
     let page;
     let result;
 
