@@ -30,7 +30,7 @@ const init = async (restartBrowser = false) => {
     if (config.puppeteer.blockRequests.enabled) {
         const blockedRequests = new RegExp('(' + config.puppeteer.blockRequests.urls.join('|') + ')', 'i');
 
-        await page.setRequestInterceptionEnabled(true);
+        await page.setRequestInterception(true);
         page.on('request', interceptedRequest => {
             const { url, method } = interceptedRequest;
 
