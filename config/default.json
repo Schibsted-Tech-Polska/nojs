@@ -74,7 +74,7 @@
             "dumpio": true
         },
         "pageOptions": {
-            "waitUntil": "networkidle",
+            "waitUntil": "networkidle2",
             "timeout": 5000,
             "width": 1600,
             "height": 900,

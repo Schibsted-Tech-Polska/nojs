@@ -78,7 +78,7 @@ const advancedScreenshotRoute = (server, options, next) => {
                             .example('10000')
                             .description('Time to wait for page to render (in ms)'),
                         waitUntil: Joi.string()
-                            .allow(['load', 'networkidle'])
+                            .allow(['load', 'networkidle2'])
                             .description(
                                 'Maximum amount of inflight requests which are considered "idle". Takes effect only with waitUntil: \'networkidle\' parameter. Defaults to 2.'
                             ),
