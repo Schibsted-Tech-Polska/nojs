@@ -148,4 +148,11 @@ const screenshot = async (url, options = {}) => {
     return result;
 };
 
-module.exports = { render, screenshot };
+const healthcheck = async () => {
+    let page;
+
+    page = await init();
+    return await page.close();
+};
+
+module.exports = { render, screenshot, healthcheck };
