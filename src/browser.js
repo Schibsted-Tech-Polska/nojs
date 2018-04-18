@@ -32,7 +32,8 @@ const init = async (restartBrowser = false) => {
 
         await page.setRequestInterception(true);
         page.on('request', interceptedRequest => {
-            const { url, method } = interceptedRequest;
+            const method = interceptedRequest.method();
+            const url = interceptedRequest.url();
 
             if (blockedRequests.test(url)) {
                 logger.debug(`Blocked ${method} request for: ${url}`);
